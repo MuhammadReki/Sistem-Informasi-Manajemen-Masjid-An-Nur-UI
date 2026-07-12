@@ -22,17 +22,9 @@
 
 ### Dashboard
 
-![Dashboard](images/dashboard.png)
+![Dashboard](images/Dashboard.png)
 
-### Login
 
-![Login](images/login.png)
-
-### Inventaris
-
-![Inventaris](images/inventaris.png)
-
----
 
 ## 🛠️ Tech Stack
 
