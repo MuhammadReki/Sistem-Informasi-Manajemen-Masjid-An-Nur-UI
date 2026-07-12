@@ -22,7 +22,7 @@
 
 ### Dashboard
 
-![Dashboard](images/Dashboard.png)
+![Dashboard](assets/Dashboard.png)
 
 
 
