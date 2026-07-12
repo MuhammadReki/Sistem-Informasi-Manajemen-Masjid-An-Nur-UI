@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Zakat - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .result-box {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .result-box.show {
+            animation: resultPop 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes resultPop {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .number-animate {
+            transition: all 0.3s ease;
+        }
+        .nisab-status {
+            transition: all 0.3s ease;
+        }
+        .btn-hitung {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hitung:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.3);
+        }
+        .btn-hitung:active {
+            transform: scale(0.98);
+        }
+        .zakat-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR (HIJAU) ====== -->
+        <aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+            <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+                <div class="w-11 h-11 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg shadow-black/20 flex-shrink-0">
+                    <i class="fas fa-mosque text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-white tracking-tight">SIMAS</h1>
+                    <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase">Masjid AN-NUR</p>
+                </div>
+            </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-tag w-5 text-white/40"></i> Manajemen Role</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-mosque w-5 text-white/40"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-tools w-5 text-white/40"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sticky-note w-5 text-white/40"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">🧮 Kalkulator Zakat</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Hitung zakat fitrah dan zakat mal dengan mudah</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== MAIN CONTENT ====== -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                
+                <!-- ====== FORM ====== -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-calculator text-emerald-600"></i> Hitung Zakat
+                        </h3>
+                        <form id="zakatForm" class="space-y-4" onsubmit="handleHitungZakat(event)">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Jenis Zakat <span class="text-red-500">*</span></label>
+                                <select id="jenisZakat" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-white transition-all duration-200" required>
+                                    <option value="fitrah">Zakat Fitrah</option>
+                                    <option value="mal">Zakat Mal (Harta)</option>
+                                </select>
+                            </div>
+
+                            <!-- Zakat Fitrah Fields -->
+                            <div id="fitrahFields">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Jumlah Jiwa Tanggungan <span class="text-red-500">*</span></label>
+                                    <div class="flex items-center gap-3">
+                                        <button type="button" onclick="adjustJiwa(-1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-lg font-bold transition-all duration-200">−</button>
+                                        <input type="number" id="jumlahJiwa" value="4" min="1" class="form-input w-24 text-center px-2 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                                        <button type="button" onclick="adjustJiwa(1)" class="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-lg font-bold transition-all duration-200">+</button>
+                                        <span class="text-sm text-gray-500">orang</span>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Termasuk diri sendiri dan keluarga</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Harga Beras per 2.5 kg <span class="text-red-500">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                                        <input type="number" id="hargaBeras" value="15000" min="1" class="form-input w-full pl-12 pr-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Sesuai harga beras di wilayah Anda</p>
+                                </div>
+                            </div>
+
+                            <!-- Zakat Mal Fields -->
+                            <div id="malFields" style="display:none;">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Total Harta <span class="text-red-500">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                                        <input type="number" id="totalHarta" placeholder="0" class="form-input w-full pl-12 pr-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200">
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">Harta yang sudah mencapai nisab 85 gram emas</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Nisab (85 gram emas)</span>
+                                        <span class="text-sm font-bold text-emerald-600" id="nisabDisplay">Rp 85.000.000</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-2">
+                                        <span class="text-sm text-gray-600">Status Nisab</span>
+                                        <span id="nisabStatus" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
+                                            Belum dihitung
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-hitung w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-calculator"></i> Hitung Zakat
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ====== HASIL ====== -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-emerald-600"></i> Hasil Perhitungan
+                        </h3>
+                        <div id="resultBox" class="result-box p-6 bg-gray-50 rounded-xl text-center min-h-[220px] flex flex-col items-center justify-center">
+                            <i class="fas fa-hand-holding-heart zakat-icon text-5xl text-gray-300 mb-4"></i>
+                            <p class="text-gray-500 text-sm">Isi data di samping, lalu klik "Hitung Zakat"</p>
+                        </div>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="mt-4 bg-emerald-50 rounded-2xl p-4 border-l-4 border-emerald-500">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-info-circle text-emerald-500 mt-0.5"></i>
+                            <div>
+                                <p class="text-sm font-medium text-emerald-800">Info Perhitungan</p>
+                                <ul class="text-xs text-emerald-700 mt-1 space-y-1">
+                                    <li>• Zakat Fitrah = Jiwa × 2.5kg × Harga Beras</li>
+                                    <li>• Zakat Mal = 2.5% × Total Harta (jika ≥ nisab)</li>
+                                    <li>• Nisab = 85 gram emas (Rp 85.000.000)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Bayar -->
+                    <div id="bayarSection" class="mt-4 hidden">
+                        <button onclick="bayarZakat()" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-green-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                            <i class="fas fa-credit-card"></i> Bayar Zakat Sekarang
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== TOGGLE JENIS ZAKAT ======
+        document.getElementById('jenisZakat').addEventListener('change', function() {
+            const fitrahFields = document.getElementById('fitrahFields');
+            const malFields = document.getElementById('malFields');
+            if (this.value === 'fitrah') {
+                fitrahFields.style.display = 'block';
+                malFields.style.display = 'none';
+            } else {
+                fitrahFields.style.display = 'none';
+                malFields.style.display = 'block';
+            }
+            // Reset result
+            resetResult();
+        });
+
+        // ====== ADJUST JIWA ======
+        function adjustJiwa(delta) {
+            const input = document.getElementById('jumlahJiwa');
+            let val = parseInt(input.value) || 1;
+            val = Math.max(1, val + delta);
+            input.value = val;
+        }
+
+        // ====== HITUNG ZAKAT ======
+        function handleHitungZakat(e) {
+            e.preventDefault();
+            const jenis = document.getElementById('jenisZakat').value;
+            const resultBox = document.getElementById('resultBox');
+
+            if (jenis === 'fitrah') {
+                hitungFitrah(resultBox);
+            } else {
+                hitungMal(resultBox);
+            }
+        }
+
+        function hitungFitrah(resultBox) {
+            const jiwa = parseInt(document.getElementById('jumlahJiwa').value) || 0;
+            const harga = parseInt(document.getElementById('hargaBeras').value) || 0;
+
+            if (jiwa <= 0 || harga <= 0) {
+                alert('Jumlah jiwa dan harga beras wajib diisi!');
+                return;
+            }
+
+            const zakat = jiwa * 2.5 * harga;
+            const formatZakat = formatRupiah(zakat);
+            const formatHarga = formatRupiah(harga);
+            const berasTotal = (jiwa * 2.5).toFixed(1);
+
+            resultBox.className = 'result-box p-6 bg-gradient-to-br from-emerald-50 to-white rounded-xl text-center min-h-[220px] flex flex-col items-center justify-center';
+            resultBox.innerHTML = `
+                <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-hand-holding-heart text-emerald-600 text-2xl"></i>
+                </div>
+                <p class="text-sm text-gray-500">Zakat Fitrah</p>
+                <p class="text-3xl font-bold text-emerald-600 mt-1">${formatZakat}</p>
+                <div class="mt-3 flex gap-4 text-sm text-gray-600">
+                    <span>👤 ${jiwa} jiwa</span>
+                    <span>•</span>
+                    <span>🍚 ${berasTotal} kg</span>
+                    <span>•</span>
+                    <span>Rp ${formatHarga}/2.5kg</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-3">Zakat Fitrah wajib dibayar sebelum Shalat Idul Fitri</p>
+            `;
+
+            document.getElementById('bayarSection').classList.remove('hidden');
+            resultBox.classList.add('show');
+            showNotification('✅ Zakat Fitrah berhasil dihitung!');
+        }
+
+        function hitungMal(resultBox) {
+            const harta = parseInt(document.getElementById('totalHarta').value) || 0;
+            const nisab = 85000000;
+
+            if (harta <= 0) {
+                alert('Total harta wajib diisi!');
+                return;
+            }
+
+            const statusEl = document.getElementById('nisabStatus');
+            const isNisab = harta >= nisab;
+            const zakat = isNisab ? harta * 0.025 : 0;
+            const formatZakat = formatRupiah(zakat);
+            const formatHarta = formatRupiah(harta);
+            const formatNisab = formatRupiah(nisab);
+
+            // Update nisab status
+            if (isNisab) {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-600';
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tercapai ✅`;
+            } else {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-600';
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Belum Tercapai ❌`;
+            }
+
+            resultBox.className = 'result-box p-6 bg-gradient-to-br from-amber-50 to-white rounded-xl text-center min-h-[220px] flex flex-col items-center justify-center';
+            resultBox.innerHTML = `
+                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-coins text-amber-600 text-2xl"></i>
+                </div>
+                <p class="text-sm text-gray-500">Zakat Mal</p>
+                ${isNisab ? `
+                    <p class="text-3xl font-bold text-amber-600 mt-1">${formatZakat}</p>
+                    <div class="mt-3 flex gap-4 text-sm text-gray-600">
+                        <span>💰 ${formatHarta}</span>
+                        <span>•</span>
+                        <span>📊 2.5%</span>
+                    </div>
+                    <p class="text-xs text-emerald-600 mt-3">✅ Harta mencapai nisab</p>
+                ` : `
+                    <p class="text-lg font-semibold text-gray-400 mt-1">Tidak Wajib</p>
+                    <div class="mt-3 flex gap-4 text-sm text-gray-500">
+                        <span>💰 ${formatHarta}</span>
+                        <span>•</span>
+                        <span>📊 < ${formatNisab}</span>
+                    </div>
+                    <p class="text-xs text-red-400 mt-3">❌ Harta belum mencapai nisab</p>
+                `}
+            `;
+
+            if (isNisab) {
+                document.getElementById('bayarSection').classList.remove('hidden');
+            } else {
+                document.getElementById('bayarSection').classList.add('hidden');
+            }
+
+            resultBox.classList.add('show');
+            if (isNisab) {
+                showNotification('✅ Zakat Mal berhasil dihitung!');
+            } else {
+                showNotification('ℹ️ Harta belum mencapai nisab, belum wajib zakat.');
+            }
+        }
+
+        // ====== FORMAT RUPIAH ======
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { 
+                style: 'currency', 
+                currency: 'IDR', 
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // ====== RESET RESULT ======
+        function resetResult() {
+            const resultBox = document.getElementById('resultBox');
+            resultBox.className = 'result-box p-6 bg-gray-50 rounded-xl text-center min-h-[220px] flex flex-col items-center justify-center';
+            resultBox.innerHTML = `
+                <i class="fas fa-hand-holding-heart zakat-icon text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500 text-sm">Isi data di samping, lalu klik "Hitung Zakat"</p>
+            `;
+            document.getElementById('bayarSection').classList.add('hidden');
+        }
+
+        // ====== BAYAR ZAKAT ======
+        function bayarZakat() {
+            const jenis = document.getElementById('jenisZakat').value;
+            const jenisName = jenis === 'fitrah' ? 'Zakat Fitrah' : 'Zakat Mal';
+            const resultBox = document.getElementById('resultBox');
+            const zakatText = resultBox.querySelector('.text-3xl')?.textContent || 'Rp 0';
+            
+            if (confirm(`Bayar ${jenisName} sebesar ${zakatText}?`)) {
+                window.location.href = 'pembayaran-jamaah.html';
+            }
+        }
+
+        // ====== NISAB LIVE CHECK ======
+        document.getElementById('totalHarta').addEventListener('input', function() {
+            const harta = parseInt(this.value) || 0;
+            const nisab = 85000000;
+            const statusEl = document.getElementById('nisabStatus');
+            
+            if (harta === 0) {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500';
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Belum dihitung`;
+                return;
+            }
+
+            if (harta >= nisab) {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-600';
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Tercapai ✅`;
+            } else {
+                statusEl.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-600';
+                statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Belum Tercapai ❌`;
+            }
+        });
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        console.log('🧮 Kalkulator Zakat loaded!');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Masjid - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .upload-zone {
+            border: 3px dashed #d1d5db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-zone:hover {
+            border-color: #2e7d32;
+            background: #f0faf0;
+        }
+        .upload-zone.dragover {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+        }
+        .logo-preview {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .logo-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.2);
+        }
+        .foto-preview {
+            transition: all 0.3s ease;
+        }
+        .foto-preview:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .image-preview {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .btn-action {
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+       <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-tag w-5 text-white/40"></i> Manajemen Role</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-mosque w-5 text-white/70"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-tools w-5 text-white/40"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sticky-note w-5 text-white/40"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">🕌 Pengaturan Masjid</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Kelola informasi dan profil masjid</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== MAIN CONTENT ====== -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                
+                <!-- ====== FORM ====== -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-edit text-emerald-600"></i> Informasi Masjid
+                        </h3>
+                        <form id="masjidForm" class="space-y-4" onsubmit="handleSaveMasjid(event)">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Masjid <span class="text-red-500">*</span></label>
+                                <input type="text" id="formNama" value="Masjid AN-NUR" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Alamat Lengkap <span class="text-red-500">*</span></label>
+                                <textarea id="formAlamat" rows="3" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200 resize-none" required>Jl. Kebon Jeruk No. 123, Kelurahan Kembangan, Kecamatan Kembangan, Jakarta Barat, DKI Jakarta 12345</textarea>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">No. Telepon</label>
+                                    <input type="text" id="formTelepon" value="(021) 1234-5678" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+                                    <input type="email" id="formEmail" value="info@masjidannur.id" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Tahun Berdiri</label>
+                                <input type="number" id="formTahun" value="1995" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi Masjid</label>
+                                <textarea id="formDeskripsi" rows="3" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200 resize-none">Masjid AN-NUR adalah masjid yang terletak di pusat kota Jakarta Barat. Berdiri sejak tahun 1995, melayani jamaah sekitar 1500 orang.</textarea>
+                            </div>
+                            <button type="submit" class="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg hover:shadow-emerald-500/30 flex items-center gap-2">
+                                <i class="fas fa-save"></i> Simpan Pengaturan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ====== SIDE INFO ====== -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- Logo -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 text-center">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-image text-emerald-600"></i> Logo Masjid
+                        </h3>
+                        <div id="logoContainer" class="relative w-32 h-32 rounded-full bg-gray-100 mx-auto border-4 border-emerald-200 flex items-center justify-center overflow-hidden logo-preview cursor-pointer" onclick="document.getElementById('logoInput').click()">
+                            <i class="fas fa-mosque text-5xl text-emerald-300"></i>
+                            <img id="logoPreview" src="" alt="Logo" class="hidden w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-camera text-white text-xl"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="logoInput" class="hidden" accept="image/*">
+                        <button onclick="document.getElementById('logoInput').click()" class="mt-3 px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 mx-auto">
+                            <i class="fas fa-upload"></i> Upload Logo
+                        </button>
+                        <p class="text-xs text-gray-400 mt-2">Format: JPG, PNG, SVG. Maks 2MB</p>
+                    </div>
+
+                    <!-- Foto -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 text-center">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-3 flex items-center justify-center gap-2">
+                            <i class="fas fa-camera text-emerald-600"></i> Foto Masjid
+                        </h3>
+                        <div id="fotoContainer" class="w-full h-40 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300 foto-preview cursor-pointer overflow-hidden" onclick="document.getElementById('fotoInput').click()">
+                            <i class="fas fa-image text-4xl text-gray-300"></i>
+                            <img id="fotoPreview" src="" alt="Foto Masjid" class="hidden w-full h-full object-cover">
+                        </div>
+                        <input type="file" id="fotoInput" class="hidden" accept="image/*">
+                        <button onclick="document.getElementById('fotoInput').click()" class="mt-3 px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 mx-auto">
+                            <i class="fas fa-upload"></i> Upload Foto
+                        </button>
+                        <p class="text-xs text-gray-400 mt-2">Format: JPG, PNG. Maks 5MB</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== LOGO UPLOAD ======
+        document.getElementById('logoInput').addEventListener('change', function() {
+            if (this.files.length) {
+                const file = this.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Ukuran file maksimal 2MB!');
+                    this.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logoPreview');
+                    const icon = document.querySelector('#logoContainer i');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    icon.classList.add('hidden');
+                    showNotification('✅ Logo berhasil diupload!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ====== FOTO UPLOAD ======
+        document.getElementById('fotoInput').addEventListener('change', function() {
+            if (this.files.length) {
+                const file = this.files[0];
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Ukuran file maksimal 5MB!');
+                    this.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('fotoPreview');
+                    const icon = document.querySelector('#fotoContainer i');
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    icon.classList.add('hidden');
+                    document.querySelector('#fotoContainer').classList.remove('border-dashed', 'border-gray-300');
+                    document.querySelector('#fotoContainer').classList.add('border-solid', 'border-emerald-300');
+                    showNotification('✅ Foto masjid berhasil diupload!');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ====== DRAG & DROP ======
+        ['logoContainer', 'fotoContainer'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            el.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            el.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length) {
+                    const inputId = this.id === 'logoContainer' ? 'logoInput' : 'fotoInput';
+                    document.getElementById(inputId).files = files;
+                    document.getElementById(inputId).dispatchEvent(new Event('change'));
+                }
+            });
+        });
+
+        // ====== SAVE MASJID SETTINGS ======
+        function handleSaveMasjid(e) {
+            e.preventDefault();
+            const nama = document.getElementById('formNama').value.trim();
+            const alamat = document.getElementById('formAlamat').value.trim();
+            const telepon = document.getElementById('formTelepon').value.trim();
+            const email = document.getElementById('formEmail').value.trim();
+            const tahun = document.getElementById('formTahun').value;
+            const deskripsi = document.getElementById('formDeskripsi').value.trim();
+
+            if (!nama || !alamat) {
+                alert('Nama dan Alamat wajib diisi!');
+                return;
+            }
+
+            showNotification('✅ Pengaturan masjid berhasil disimpan!');
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        console.log('🕌 Pengaturan Masjid loaded!');
+    </script>
+
+</body>
+</html>

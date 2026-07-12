@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Role - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        /* Sidebar scroll */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        /* Card hover effect */
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .role-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        /* Mobile menu overlay */
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        /* Active menu indicator */
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        /* Smooth sidebar toggle */
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        /* Sidebar link hover */
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        /* Modal animation */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        /* Permission checkbox */
+        .permission-checkbox {
+            accent-color: #2e7d32;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .permission-label {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .permission-label:hover {
+            color: #2e7d32;
+        }
+        /* Button animation */
+        .btn-action {
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+        /* Status badge */
+        .status-dot {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR (HIJAU) ====== -->
+        <aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+           <!-- Sidebar Brand -->
+<div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+    <img src="../assets/Logo.png" alt="Logo Masjid" class="w-14 h-14 object-contain flex-shrink-0">
+    <div>
+        <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+        <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+    </div>
+</div>
+
+            <!-- Sidebar Menu -->
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <!-- Utama -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-user-tag w-5 text-white/70"></i> Manajemen Role</a></li>
+                </ul>
+
+                <!-- Manajemen -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+
+                <!-- Fitur Novelty -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+
+                <!-- Pengaturan -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-mosque w-5 text-white/40"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-tools w-5 text-white/40"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sticky-note w-5 text-white/40"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY (Mobile) ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">🔐 Manajemen Role & Akses</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Kelola role dan permission user</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal()" class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5">
+                        <i class="fas fa-plus"></i> Tambah Role
+                    </button>
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                            A
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== STATS ====== -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Role</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mt-1" id="totalRole">6</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-user-tag text-purple-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total User</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mt-1" id="totalUser">12</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-users text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Permission</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mt-1" id="totalPermission">24</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-key text-amber-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== ROLE CARDS ====== -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="roleCards">
+                <!-- Role cards akan diisi oleh JavaScript -->
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ====== MODAL ADD ROLE ====== -->
+    <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white rounded-2xl max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100 sticky top-0 bg-white z-10">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-user-plus text-emerald-600"></i> Tambah Role
+                </h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="roleForm" class="p-6 space-y-4" onsubmit="handleAddRole(event)">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Role <span class="text-red-500">*</span></label>
+                    <input type="text" id="formRoleName" placeholder="Contoh: Koordinator Dakwah" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi</label>
+                    <textarea id="formRoleDesc" placeholder="Deskripsi role..." rows="3" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 resize-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Akses Menu</label>
+                    <div class="grid grid-cols-2 gap-2 p-4 border-2 border-gray-200 rounded-xl max-h-48 overflow-y-auto">
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox" checked> Dashboard
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> User
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Keuangan
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Zakat
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Agenda
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Inventaris
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Mustahik
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Portal Jamaah
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> WA Blast
+                        </label>
+                        <label class="permission-label flex items-center gap-2 text-sm text-gray-600">
+                            <input type="checkbox" class="permission-checkbox"> Pengaturan
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i> Simpan Role
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ====== DATA ROLE ======
+        let roles = [
+            { 
+                id: 1, 
+                name: 'Super Admin', 
+                desc: 'Akses penuh ke seluruh sistem', 
+                status: 'Aktif',
+                permissions: ['Semua Menu', 'Semua Fitur'],
+                color: 'border-emerald-500',
+                icon: 'fa-crown'
+            },
+            { 
+                id: 2, 
+                name: 'Bendahara', 
+                desc: 'Manajemen keuangan & zakat', 
+                status: 'Aktif',
+                permissions: ['Keuangan', 'Zakat', 'Laporan'],
+                color: 'border-amber-500',
+                icon: 'fa-coins'
+            },
+            { 
+                id: 3, 
+                name: 'Sekretaris', 
+                desc: 'Kelola agenda & dokumentasi', 
+                status: 'Aktif',
+                permissions: ['Agenda', 'Dokumentasi', 'Memo'],
+                color: 'border-blue-500',
+                icon: 'fa-file-alt'
+            },
+            { 
+                id: 4, 
+                name: 'Admin Zakat', 
+                desc: 'Kelola zakat & mustahik', 
+                status: 'Aktif',
+                permissions: ['Zakat', 'Mustahik', 'Kalkulator'],
+                color: 'border-orange-500',
+                icon: 'fa-hand-holding-heart'
+            },
+            { 
+                id: 5, 
+                name: 'Koordinator Dakwah', 
+                desc: 'Kelola kegiatan dakwah', 
+                status: 'Nonaktif',
+                permissions: ['Agenda', 'Dokumentasi', 'WA Blast'],
+                color: 'border-pink-500',
+                icon: 'fa-bullhorn'
+            },
+            { 
+                id: 6, 
+                name: 'Pengurus Harian', 
+                desc: 'Pengelolaan harian masjid', 
+                status: 'Aktif',
+                permissions: ['Keuangan', 'Inventaris', 'Memo'],
+                color: 'border-indigo-500',
+                icon: 'fa-users-cog'
+            }
+        ];
+
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== RENDER ROLE CARDS ======
+        function renderRoles() {
+            const container = document.getElementById('roleCards');
+            
+            // Update stats
+            document.getElementById('totalRole').textContent = roles.length;
+            document.getElementById('totalUser').textContent = '12';
+            document.getElementById('totalPermission').textContent = '24';
+            
+            const roleColors = {
+                'Super Admin': 'from-purple-500 to-purple-700',
+                'Bendahara': 'from-amber-500 to-amber-700',
+                'Sekretaris': 'from-blue-500 to-blue-700',
+                'Admin Zakat': 'from-orange-500 to-orange-700',
+                'Koordinator Dakwah': 'from-pink-500 to-pink-700',
+                'Pengurus Harian': 'from-indigo-500 to-indigo-700'
+            };
+
+            const defaultColors = ['from-emerald-500 to-emerald-700', 'from-cyan-500 to-cyan-700', 'from-teal-500 to-teal-700'];
+
+            container.innerHTML = roles.map((role, index) => {
+                const colorGrad = roleColors[role.name] || defaultColors[index % defaultColors.length];
+                const iconMap = {
+                    'Super Admin': 'fa-crown',
+                    'Bendahara': 'fa-coins',
+                    'Sekretaris': 'fa-file-alt',
+                    'Admin Zakat': 'fa-hand-holding-heart',
+                    'Koordinator Dakwah': 'fa-bullhorn',
+                    'Pengurus Harian': 'fa-users-cog'
+                };
+                const icon = iconMap[role.name] || 'fa-user-tag';
+                
+                return `
+                    <div class="role-card bg-white rounded-2xl p-5 shadow-sm border-l-4 ${role.color} border border-emerald-50">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 bg-gradient-to-br ${colorGrad} rounded-xl flex items-center justify-center shadow-lg shadow-black/10">
+                                    <i class="fas ${icon} text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-800">${role.name}</h3>
+                                    <p class="text-sm text-gray-500">${role.desc}</p>
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${role.status === 'Aktif' ? 'bg-emerald-50 text-emerald-600' : 'bg-gray-50 text-gray-500'}">
+                                <span class="w-1.5 h-1.5 rounded-full ${role.status === 'Aktif' ? 'bg-emerald-500 status-dot' : 'bg-gray-400'}"></span>
+                                ${role.status}
+                            </span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            ${role.permissions.map(p => `
+                                <span class="px-3 py-1 bg-gray-50 text-gray-600 rounded-lg text-xs font-medium border border-gray-100">
+                                    <i class="fas fa-check-circle text-emerald-500 text-[10px] mr-1"></i> ${p}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <button onclick="editRole(${role.id})" class="btn-action px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button onclick="managePermission(${role.id})" class="btn-action px-4 py-2 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                                <i class="fas fa-cog"></i> Permission
+                            </button>
+                            <button onclick="toggleRoleStatus(${role.id})" class="btn-action px-4 py-2 ${role.status === 'Aktif' ? 'bg-amber-50 text-amber-600 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'} rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ml-auto">
+                                <i class="fas ${role.status === 'Aktif' ? 'fa-pause' : 'fa-play'}"></i> ${role.status === 'Aktif' ? 'Nonaktifkan' : 'Aktifkan'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ====== MODAL FUNCTIONS ======
+        function openModal() {
+            document.getElementById('modalOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('roleForm').reset();
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ====== ADD ROLE ======
+        function handleAddRole(e) {
+            e.preventDefault();
+            const name = document.getElementById('formRoleName').value.trim();
+            const desc = document.getElementById('formRoleDesc').value.trim();
+            
+            if (!name) {
+                alert('Nama role wajib diisi!');
+                return;
+            }
+
+            const checkboxes = document.querySelectorAll('.permission-checkbox:checked');
+            const permissions = Array.from(checkboxes).map(cb => cb.parentElement.textContent.trim());
+
+            const newRole = {
+                id: roles.length + 1,
+                name: name,
+                desc: desc || 'Deskripsi role',
+                status: 'Aktif',
+                permissions: permissions.length > 0 ? permissions : ['Dashboard'],
+                color: 'border-emerald-500',
+                icon: 'fa-user-tag'
+            };
+
+            roles.push(newRole);
+            renderRoles();
+            closeModal();
+            showNotification('✅ Role berhasil ditambahkan!');
+        }
+
+        // ====== EDIT ROLE ======
+        function editRole(id) {
+            const role = roles.find(r => r.id === id);
+            if (!role) return;
+            const newName = prompt('Edit Nama Role:', role.name);
+            if (newName && newName.trim()) {
+                role.name = newName.trim();
+                renderRoles();
+                showNotification('✏️ Role berhasil diupdate!');
+            }
+        }
+
+        // ====== MANAGE PERMISSION ======
+        function managePermission(id) {
+            const role = roles.find(r => r.id === id);
+            if (!role) return;
+            const currentPerms = role.permissions.join(', ');
+            const newPerms = prompt(`Edit Permission untuk ${role.name}\n(Pisahkan dengan koma):`, currentPerms);
+            if (newPerms !== null) {
+                role.permissions = newPerms.split(',').map(p => p.trim()).filter(p => p);
+                renderRoles();
+                showNotification('🔑 Permission berhasil diupdate!');
+            }
+        }
+
+        // ====== TOGGLE ROLE STATUS ======
+        function toggleRoleStatus(id) {
+            const role = roles.find(r => r.id === id);
+            if (!role) return;
+            const newStatus = role.status === 'Aktif' ? 'Nonaktif' : 'Aktif';
+            if (confirm(`Ubah status ${role.name} menjadi ${newStatus}?`)) {
+                role.status = newStatus;
+                renderRoles();
+                showNotification(`📌 Status role berhasil diubah menjadi ${newStatus}`);
+            }
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        // Add notification style
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        renderRoles();
+        console.log('🔐 Manajemen Role loaded!');
+        console.log(`📊 Total role: ${roles.length}`);
+    </script>
+
+</body>
+</html>

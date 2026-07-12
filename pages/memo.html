@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memo - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .memo-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .memo-item:hover {
+            background: #f0faf0;
+            transform: translateX(4px);
+        }
+        .memo-item.unread {
+            border-left: 4px solid #ef4444;
+        }
+        .memo-item.read {
+            border-left: 4px solid #10b981;
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .filter-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .btn-action {
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .memo-detail {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .status-dot {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-tag w-5 text-white/40"></i> Manajemen Role</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-mosque w-5 text-white/40"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-tools w-5 text-white/40"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-sticky-note w-5 text-white/70"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">📝 Memo</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Kelola memo dan pengumuman internal</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal()" class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5">
+                        <i class="fas fa-plus"></i> Buat Memo
+                    </button>
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== STATS ====== -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Memo</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mt-1" id="totalMemo">24</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-sticky-note text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Belum Dibaca</p>
+                            <h2 class="text-2xl font-bold text-orange-600 mt-1" id="totalUnread">3</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-envelope text-orange-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Sudah Dibaca</p>
+                            <h2 class="text-2xl font-bold text-emerald-600 mt-1" id="totalRead">21</h2>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== DAFTAR MEMO ====== -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 overflow-hidden">
+                <div class="px-4 lg:px-6 py-4 border-b border-emerald-100 flex flex-wrap items-center justify-between gap-3">
+                    <h3 class="text-lg font-semibold text-gray-800">📋 Daftar Memo</h3>
+                    <div class="flex gap-3">
+                        <select id="filterStatus" class="filter-input px-4 py-2 border-2 border-gray-200 rounded-xl text-sm bg-white">
+                            <option value="">Semua</option>
+                            <option value="unread">Belum Dibaca</option>
+                            <option value="read">Sudah Dibaca</option>
+                        </select>
+                        <button onclick="refreshMemo()" class="px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div id="memoContainer" class="divide-y divide-gray-100">
+                    <!-- Data diisi JavaScript -->
+                </div>
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ====== MODAL TAMBAH MEMO ====== -->
+    <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white rounded-2xl max-w-md w-full shadow-2xl">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-sticky-note text-emerald-600"></i> Buat Memo Baru
+                </h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="memoForm" class="p-6 space-y-4" onsubmit="handleAddMemo(event)">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Judul Memo <span class="text-red-500">*</span></label>
+                    <input type="text" id="formTitle" placeholder="Masukkan judul memo" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Dari <span class="text-red-500">*</span></label>
+                    <input type="text" id="formFrom" placeholder="Nama pengirim" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kepada <span class="text-red-500">*</span></label>
+                    <input type="text" id="formTo" placeholder="Nama penerima / semua" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Isi Memo <span class="text-red-500">*</span></label>
+                    <textarea id="formContent" rows="4" placeholder="Tulis isi memo..." class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200 resize-none" required></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i> Kirim Memo
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ====== MODAL DETAIL MEMO ====== -->
+    <div id="detailOverlay" class="modal-overlay fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white rounded-2xl max-w-lg w-full shadow-2xl">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-file-alt text-emerald-600"></i> <span id="detailTitle">Detail Memo</span>
+                </h3>
+                <button onclick="closeDetail()" class="w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="flex items-center gap-3 text-sm text-gray-500">
+                    <span><i class="fas fa-user text-emerald-500 mr-1"></i> <span id="detailFrom">-</span></span>
+                    <span>•</span>
+                    <span><i class="fas fa-users text-emerald-500 mr-1"></i> <span id="detailTo">-</span></span>
+                    <span>•</span>
+                    <span><i class="fas fa-clock text-emerald-500 mr-1"></i> <span id="detailTime">-</span></span>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                    <p id="detailContent" class="text-gray-700 text-sm whitespace-pre-wrap"></p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <span id="detailStatus" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium"></span>
+                    <div class="flex gap-2">
+                        <button onclick="markAsRead()" class="px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                            <i class="fas fa-check"></i> Tandai Dibaca
+                        </button>
+                        <button onclick="deleteMemo()" class="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====== DATA MEMO ======
+        let memos = [
+            { 
+                id: 1, 
+                title: 'Rapat Pengurus Mingguan', 
+                from: 'Ahmad Fauzi', 
+                to: 'Semua Pengurus',
+                content: 'Agenda rapat membahas persiapan kegiatan Ramadhan, termasuk pembagian tugas dan anggaran yang diperlukan. Mohon hadir tepat waktu.',
+                time: '2026-06-19 14:30',
+                status: 'unread'
+            },
+            { 
+                id: 2, 
+                title: 'Laporan Keuangan Juni 2026', 
+                from: 'Siti Rahma', 
+                to: 'Bendahara & Super Admin',
+                content: 'Laporan keuangan bulan Juni sudah siap. Mohon diperiksa dan ditandatangani sebelum akhir bulan.',
+                time: '2026-06-18 10:15',
+                status: 'read'
+            },
+            { 
+                id: 3, 
+                title: 'Pengumuman: Jadwal Kajian Baru', 
+                from: 'Budi Santoso', 
+                to: 'Sekretaris & Admin Zakat',
+                content: 'Jadwal kajian baru akan dimulai pekan depan. Mohon segera disiapkan jadwal dan pengumuman untuk jamaah.',
+                time: '2026-06-17 09:00',
+                status: 'unread'
+            },
+            { 
+                id: 4, 
+                title: 'Info Perbaikan Sound System', 
+                from: 'Hasan Basri', 
+                to: 'Pengurus Harian',
+                content: 'Sound system masjid perlu diperbaiki sebelum acara besar. Mohon koordinasi dengan teknisi.',
+                time: '2026-06-16 16:45',
+                status: 'read'
+            },
+            { 
+                id: 5, 
+                title: 'Jadwal Piket Takmir', 
+                from: 'Dewi Lestari', 
+                to: 'Semua Takmir',
+                content: 'Jadwal piket bulan Juli 2026 sudah dibuat. Silakan cek dan konfirmasi kesediaan.',
+                time: '2026-06-15 08:30',
+                status: 'unread'
+            }
+        ];
+
+        let nextId = 6;
+        let currentMemoId = null;
+
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== FORMAT FUNCTIONS ======
+        function formatDateTime(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
+                   d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function getStatusLabel(status) {
+            return status === 'unread' ? 'Belum Dibaca' : 'Sudah Dibaca';
+        }
+
+        function getStatusColor(status) {
+            return status === 'unread' 
+                ? 'bg-red-50 text-red-600 border-red-200' 
+                : 'bg-emerald-50 text-emerald-600 border-emerald-200';
+        }
+
+        function getStatusDot(status) {
+            return status === 'unread' ? 'bg-red-500' : 'bg-emerald-500';
+        }
+
+        // ====== UPDATE STATS ======
+        function updateStats() {
+            const total = memos.length;
+            const unread = memos.filter(m => m.status === 'unread').length;
+            const read = memos.filter(m => m.status === 'read').length;
+
+            document.getElementById('totalMemo').textContent = total;
+            document.getElementById('totalUnread').textContent = unread;
+            document.getElementById('totalRead').textContent = read;
+        }
+
+        // ====== RENDER MEMO ======
+        function renderMemos() {
+            const filter = document.getElementById('filterStatus').value;
+            let filtered = memos;
+            if (filter === 'unread') {
+                filtered = memos.filter(m => m.status === 'unread');
+            } else if (filter === 'read') {
+                filtered = memos.filter(m => m.status === 'read');
+            }
+
+            // Sort by time descending (newest first)
+            filtered.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+            const container = document.getElementById('memoContainer');
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fas fa-inbox text-4xl block mb-3 opacity-30"></i>
+                        <p>Tidak ada memo ditemukan</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(memo => `
+                <div class="memo-item ${memo.status} p-4 cursor-pointer" onclick="openDetail(${memo.id})">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div class="flex-1 min-w-[200px]">
+                            <h4 class="text-base font-semibold text-gray-800">${memo.status === 'unread' ? '📌' : '📋'} ${memo.title}</h4>
+                            <p class="text-sm text-gray-500">Dari: ${memo.from}</p>
+                            <p class="text-sm text-gray-500">Kepada: ${memo.to}</p>
+                            <p class="text-sm text-gray-600 mt-2 line-clamp-2">${memo.content}</p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(memo.status)}">
+                                <span class="w-1.5 h-1.5 rounded-full ${getStatusDot(memo.status)}"></span>
+                                ${getStatusLabel(memo.status)}
+                            </span>
+                            <p class="text-xs text-gray-400 mt-1">${formatDateTime(memo.time)}</p>
+                            ${memo.status === 'unread' ? '<span class="inline-block w-2 h-2 bg-red-500 rounded-full status-dot mt-1"></span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            updateStats();
+        }
+
+        // ====== FILTER ======
+        document.getElementById('filterStatus').addEventListener('change', renderMemos);
+
+        // ====== REFRESH ======
+        function refreshMemo() {
+            showNotification('🔄 Daftar memo berhasil di-refresh!');
+            renderMemos();
+        }
+
+        // ====== MODAL FUNCTIONS ======
+        function openModal() {
+            document.getElementById('modalOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('memoForm').reset();
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ====== ADD MEMO ======
+        function handleAddMemo(e) {
+            e.preventDefault();
+            const title = document.getElementById('formTitle').value.trim();
+            const from = document.getElementById('formFrom').value.trim();
+            const to = document.getElementById('formTo').value.trim();
+            const content = document.getElementById('formContent').value.trim();
+
+            if (!title || !from || !to || !content) {
+                alert('Semua field wajib diisi!');
+                return;
+            }
+
+            const now = new Date();
+            const timeStr = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0') + ' ' + 
+                String(now.getHours()).padStart(2, '0') + ':' + 
+                String(now.getMinutes()).padStart(2, '0');
+
+            memos.push({
+                id: nextId++,
+                title,
+                from,
+                to,
+                content,
+                time: timeStr,
+                status: 'unread'
+            });
+
+            renderMemos();
+            closeModal();
+            showNotification('✅ Memo berhasil dikirim!');
+        }
+
+        // ====== DETAIL MEMO ======
+        function openDetail(id) {
+            const memo = memos.find(m => m.id === id);
+            if (!memo) return;
+
+            currentMemoId = id;
+            document.getElementById('detailTitle').textContent = memo.title;
+            document.getElementById('detailFrom').textContent = memo.from;
+            document.getElementById('detailTo').textContent = memo.to;
+            document.getElementById('detailTime').textContent = formatDateTime(memo.time);
+            document.getElementById('detailContent').textContent = memo.content;
+            
+            const statusEl = document.getElementById('detailStatus');
+            statusEl.className = `inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(memo.status)}`;
+            statusEl.innerHTML = `
+                <span class="w-1.5 h-1.5 rounded-full ${getStatusDot(memo.status)}"></span>
+                ${getStatusLabel(memo.status)}
+            `;
+
+            document.getElementById('detailOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            currentMemoId = null;
+        }
+
+        document.getElementById('detailOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeDetail();
+        });
+
+        // ====== MARK AS READ ======
+        function markAsRead() {
+            if (currentMemoId === null) return;
+            const memo = memos.find(m => m.id === currentMemoId);
+            if (!memo) return;
+            if (memo.status === 'read') {
+                showNotification('📌 Memo sudah ditandai dibaca.');
+                return;
+            }
+            memo.status = 'read';
+            renderMemos();
+            closeDetail();
+            showNotification('✅ Memo ditandai sebagai sudah dibaca!');
+        }
+
+        // ====== DELETE MEMO ======
+        function deleteMemo() {
+            if (currentMemoId === null) return;
+            const memo = memos.find(m => m.id === currentMemoId);
+            if (!memo) return;
+            if (confirm(`Yakin hapus memo "${memo.title}"?`)) {
+                memos = memos.filter(m => m.id !== currentMemoId);
+                renderMemos();
+                closeDetail();
+                showNotification('🗑️ Memo berhasil dihapus!');
+            }
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .line-clamp-2 {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeDetail();
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        renderMemos();
+        console.log('📝 Memo loaded!');
+        console.log(`📊 Total memo: ${memos.length}`);
+    </script>
+
+</body>
+</html>

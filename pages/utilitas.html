@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilitas - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .util-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .util-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .log-item {
+            transition: all 0.2s ease;
+        }
+        .log-item:hover {
+            background: #f0faf0;
+        }
+        .progress-ring {
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        .btn-action {
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+        .file-upload-zone {
+            border: 3px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .file-upload-zone:hover {
+            border-color: #2e7d32;
+            background: #f0faf0;
+        }
+        .file-upload-zone.dragover {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-tag w-5 text-white/40"></i> Manajemen Role</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-mosque w-5 text-white/40"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-tools w-5 text-white/70"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sticky-note w-5 text-white/40"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">🔧 Utilitas</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Alat bantu pengelolaan sistem</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== MAIN CONTENT ====== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- ====== BACKUP ====== -->
+                <div class="util-card bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-database text-emerald-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Backup Database</h3>
+                            <p class="text-sm text-gray-500">Backup seluruh data sistem</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Backup seluruh data sistem ke file .sql. Disarankan backup rutin setiap hari.</p>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button onclick="backupDatabase()" class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-all duration-200 hover:shadow-lg hover:shadow-emerald-500/30 flex items-center gap-2">
+                            <i class="fas fa-download"></i> Backup Sekarang
+                        </button>
+                        <span class="text-sm text-gray-500" id="lastBackup">Terakhir: 19/06/2026 14:30</span>
+                    </div>
+                    <div class="mt-3 p-3 bg-gray-50 rounded-xl text-sm text-gray-500 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-emerald-500"></i>
+                        <span id="backupInfo">Ukuran: 45.2 MB | 32 tabel</span>
+                    </div>
+                    <div id="backupProgress" class="mt-3 hidden">
+                        <div class="flex justify-between text-sm text-gray-600 mb-1">
+                            <span>Memproses backup...</span>
+                            <span id="backupPercent">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div id="backupBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ====== RESTORE ====== -->
+                <div class="util-card bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-undo text-amber-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Restore Database</h3>
+                            <p class="text-sm text-gray-500">Pulihkan dari file backup</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Pulihkan database dari file backup .sql. <span class="text-red-500 font-medium">⚠️ Data saat ini akan terganti!</span></p>
+                    <div class="flex flex-wrap gap-3">
+                        <div id="restoreZone" class="file-upload-zone flex-1 rounded-xl p-4 text-center cursor-pointer min-w-[150px]">
+                            <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-1"></i>
+                            <p class="text-xs text-gray-500">Klik atau drag file .sql</p>
+                            <input type="file" id="restoreFile" class="hidden" accept=".sql">
+                        </div>
+                        <button onclick="restoreDatabase()" class="px-5 py-2.5 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-all duration-200 hover:shadow-lg hover:shadow-red-500/30 flex items-center gap-2">
+                            <i class="fas fa-upload"></i> Restore
+                        </button>
+                    </div>
+                    <div id="restoreStatus" class="mt-3 hidden p-3 rounded-xl text-sm"></div>
+                </div>
+
+                <!-- ====== CLEAR CACHE ====== -->
+                <div class="util-card bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-broom text-blue-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Clear Cache</h3>
+                            <p class="text-sm text-gray-500">Bersihkan cache sistem</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">Bersihkan cache sistem untuk meningkatkan performa dan menghapus file sementara.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="clearCache('cache')" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-bolt"></i> Clear Cache
+                        </button>
+                        <button onclick="clearCache('view')" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-eye"></i> Clear View
+                        </button>
+                        <button onclick="clearCache('route')" class="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-route"></i> Clear Route
+                        </button>
+                        <button onclick="clearCache('all')" class="px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-trash-alt"></i> Clear All
+                        </button>
+                    </div>
+                    <div id="cacheResult" class="mt-3 hidden"></div>
+                </div>
+
+                <!-- ====== LOG AKTIVITAS ====== -->
+                <div class="util-card bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clipboard-list text-orange-500 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">Log Aktivitas</h3>
+                            <p class="text-sm text-gray-500">Riwayat aktivitas pengguna</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Riwayat aktivitas pengguna dalam sistem.</p>
+                    <div class="max-h-48 overflow-y-auto space-y-1 text-sm" id="logContainer">
+                        <!-- Data diisi JavaScript -->
+                    </div>
+                    <button onclick="viewAllLogs()" class="w-full mt-3 px-4 py-2 border border-gray-200 text-gray-600 hover:bg-gray-50 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fas fa-expand"></i> Lihat Semua Log
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ====== DATA LOG ======
+        const logs = [
+            { action: 'Login', user: 'Ahmad Fauzi', time: '19/06/2026 14:32', type: 'info' },
+            { action: 'Edit', user: 'Siti Rahma', time: '19/06/2026 14:15', type: 'success' },
+            { action: 'Hapus', user: 'Budi Santoso', time: '19/06/2026 13:50', type: 'warning' },
+            { action: 'Login', user: 'Dewi Lestari', time: '19/06/2026 13:20', type: 'info' },
+            { action: 'Tambah', user: 'Hasan Basri', time: '19/06/2026 12:45', type: 'success' },
+        ];
+
+        const typeColors = {
+            info: 'bg-blue-50 text-blue-600',
+            success: 'bg-emerald-50 text-emerald-600',
+            warning: 'bg-amber-50 text-amber-600',
+            danger: 'bg-red-50 text-red-600'
+        };
+
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== RENDER LOGS ======
+        function renderLogs() {
+            const container = document.getElementById('logContainer');
+            container.innerHTML = logs.map(log => `
+                <div class="log-item flex items-center gap-2 p-2 rounded-lg transition-all duration-200">
+                    <span class="inline-flex px-2 py-0.5 rounded text-xs font-medium ${typeColors[log.type]}">${log.action}</span>
+                    <span class="text-gray-700 flex-1">${log.user}</span>
+                    <span class="text-xs text-gray-400">${log.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // ====== BACKUP DATABASE ======
+        function backupDatabase() {
+            const progressDiv = document.getElementById('backupProgress');
+            const bar = document.getElementById('backupBar');
+            const percent = document.getElementById('backupPercent');
+            const btn = document.querySelector('.util-card:first-child .btn-primary');
+            
+            progressDiv.classList.remove('hidden');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner spinner"></i> Memproses...';
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10 + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        bar.style.width = '100%';
+                        percent.textContent = '100%';
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-download"></i> Backup Sekarang';
+                        
+                        // Update last backup
+                        const now = new Date();
+                        const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                        document.getElementById('lastBackup').textContent = `Terakhir: ${dateStr} ${timeStr}`;
+                        
+                        setTimeout(() => {
+                            progressDiv.classList.add('hidden');
+                            bar.style.width = '0%';
+                            percent.textContent = '0%';
+                        }, 1000);
+                        
+                        showNotification('✅ Backup berhasil! File .sql terdownload.');
+                    }, 500);
+                }
+                bar.style.width = Math.min(progress, 100) + '%';
+                percent.textContent = Math.min(Math.round(progress), 100) + '%';
+            }, 150);
+        }
+
+        // ====== RESTORE DATABASE ======
+        const restoreZone = document.getElementById('restoreZone');
+        const restoreFile = document.getElementById('restoreFile');
+
+        restoreZone.addEventListener('click', () => restoreFile.click());
+        restoreZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            restoreZone.classList.add('dragover');
+        });
+        restoreZone.addEventListener('dragleave', () => {
+            restoreZone.classList.remove('dragover');
+        });
+        restoreZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            restoreZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                restoreFile.files = e.dataTransfer.files;
+                restoreFile.dispatchEvent(new Event('change'));
+            }
+        });
+
+        restoreFile.addEventListener('change', function() {
+            if (this.files.length) {
+                const file = this.files[0];
+                if (!file.name.endsWith('.sql')) {
+                    alert('File harus berekstensi .sql!');
+                    this.value = '';
+                    return;
+                }
+                restoreZone.innerHTML = `
+                    <i class="fas fa-file text-emerald-500 text-2xl mb-1"></i>
+                    <p class="text-xs text-emerald-600 font-medium">${file.name}</p>
+                    <p class="text-xs text-gray-400">${(file.size / 1024).toFixed(1)} KB</p>
+                `;
+            }
+        });
+
+        function restoreDatabase() {
+            const file = restoreFile.files[0];
+            const status = document.getElementById('restoreStatus');
+            
+            if (!file) {
+                alert('Pilih file .sql terlebih dahulu!');
+                return;
+            }
+
+            if (!confirm('⚠️ Yakin restore database? Data saat ini akan hilang!')) return;
+
+            status.className = 'mt-3 p-3 rounded-xl bg-blue-50 text-blue-700 flex items-center gap-3 fade-in';
+            status.innerHTML = '<i class="fas fa-spinner spinner"></i> Memproses restore...';
+            status.classList.remove('hidden');
+
+            setTimeout(() => {
+                const success = Math.random() > 0.2;
+                if (success) {
+                    status.className = 'mt-3 p-3 rounded-xl bg-emerald-50 text-emerald-700 flex items-center gap-3 fade-in';
+                    status.innerHTML = `
+                        <i class="fas fa-check-circle text-emerald-500"></i>
+                        <div>
+                            <p class="font-medium">✅ Restore berhasil!</p>
+                            <p class="text-xs text-emerald-600">Database telah dipulihkan dari ${file.name}</p>
+                        </div>
+                    `;
+                    showNotification('✅ Restore database berhasil!');
+                } else {
+                    status.className = 'mt-3 p-3 rounded-xl bg-red-50 text-red-700 flex items-center gap-3 fade-in';
+                    status.innerHTML = `
+                        <i class="fas fa-times-circle text-red-500"></i>
+                        <div>
+                            <p class="font-medium">❌ Restore gagal!</p>
+                            <p class="text-xs text-red-600">File backup tidak valid atau korup.</p>
+                        </div>
+                    `;
+                }
+            }, 2000);
+        }
+
+        // ====== CLEAR CACHE ======
+        function clearCache(type) {
+            const result = document.getElementById('cacheResult');
+            const names = {
+                cache: 'Cache',
+                view: 'View Cache',
+                route: 'Route Cache',
+                all: 'Semua Cache'
+            };
+
+            result.className = 'mt-3 p-3 rounded-xl bg-blue-50 text-blue-700 flex items-center gap-3 fade-in';
+            result.innerHTML = '<i class="fas fa-spinner spinner"></i> Membersihkan...';
+            result.classList.remove('hidden');
+
+            setTimeout(() => {
+                result.className = 'mt-3 p-3 rounded-xl bg-emerald-50 text-emerald-700 flex items-center gap-3 fade-in';
+                result.innerHTML = `
+                    <i class="fas fa-check-circle text-emerald-500"></i>
+                    <div>
+                        <p class="font-medium">✅ ${names[type]} berhasil dibersihkan!</p>
+                        <p class="text-xs text-emerald-600">Performak sistem meningkat.</p>
+                    </div>
+                `;
+                showNotification(`✅ ${names[type]} berhasil dibersihkan!`);
+            }, 1000);
+        }
+
+        // ====== VIEW ALL LOGS ======
+        function viewAllLogs() {
+            showNotification('📋 Menampilkan semua log aktivitas...');
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        renderLogs();
+        console.log('🔧 Utilitas loaded!');
+    </script>
+
+</body>
+</html>

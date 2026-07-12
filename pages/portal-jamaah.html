@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Jamaah - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        /* Sidebar scroll */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        /* Card hover effect */
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .quick-pay-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .quick-pay-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .history-item {
+            transition: all 0.2s ease;
+        }
+        .history-item:hover {
+            background: #f0faf0;
+        }
+        .activity-item {
+            transition: all 0.2s ease;
+        }
+        .activity-item:hover {
+            background: #f0faf0;
+        }
+        /* Welcome animation */
+        .welcome-text {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <!-- Sidebar Menu -->
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <!-- Jamaah -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">👤 Jamaah</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-home w-5 text-white/70"></i> Dashboard</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Bayar Zakat/Infaq</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                </ul>
+
+                <!-- Kegiatan -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">📅 Kegiatan</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+
+                <!-- Akun -->
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">⚙️ Akun</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                    <li><a href="login.html" onclick="logout()" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sign-out-alt w-5 text-white/40"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">👤 Portal Jamaah</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Kelola aktivitas keagamaan Anda</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                            B
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm font-semibold text-gray-800 leading-none" id="userNameDisplay">Budi Santoso</p>
+                            <p class="text-[10px] text-gray-500">Jamaah Aktif</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== WELCOME BANNER ====== -->
+            <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-2xl p-6 text-white mb-6 shadow-lg shadow-emerald-500/20">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold">🌟 Selamat Datang, <span id="userNameWelcome">Budi Santoso</span>!</h2>
+                        <p class="text-emerald-100 mt-1">Teruslah beribadah dan berkontribusi untuk kemajuan masjid</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">
+                        <i class="fas fa-calendar-check"></i>
+                        <span class="text-sm font-medium">Anggota sejak 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== STATS ====== -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total Donasi</p>
+                            <h2 class="text-2xl font-bold text-emerald-600 mt-1" id="totalDonasi">Rp 2.500.000</h2>
+                            <p class="text-xs text-emerald-600 font-medium mt-1"><i class="fas fa-arrow-up"></i> 12.5%</p>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-heart text-emerald-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Zakat Terbayar</p>
+                            <h2 class="text-2xl font-bold text-amber-600 mt-1" id="totalZakat">Rp 450.000</h2>
+                            <p class="text-xs text-amber-600 font-medium mt-1"><i class="fas fa-check-circle"></i> Lunas</p>
+                        </div>
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-hand-holding-heart text-amber-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Kegiatan Diikuti</p>
+                            <h2 class="text-2xl font-bold text-blue-600 mt-1" id="totalKegiatan">12</h2>
+                            <p class="text-xs text-blue-600 font-medium mt-1"><i class="fas fa-calendar"></i> 3 minggu</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-calendar-check text-blue-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== QUICK PAYMENT ====== -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">💳 Pembayaran Cepat</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <button onclick="window.location.href='pembayaran-jamaah.html'" class="quick-pay-btn bg-gradient-to-r from-emerald-500 to-emerald-600 text-white p-5 rounded-xl flex flex-col items-center gap-2 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300">
+                        <i class="fas fa-user text-2xl"></i>
+                        <span class="font-semibold text-sm">Zakat Fitrah</span>
+                        <span class="text-xs text-emerald-100">Rp 45.000/orang</span>
+                    </button>
+                    <button onclick="window.location.href='pembayaran-jamaah.html'" class="quick-pay-btn bg-gradient-to-r from-amber-500 to-amber-600 text-white p-5 rounded-xl flex flex-col items-center gap-2 hover:shadow-lg hover:shadow-amber-500/30 transition-all duration-300">
+                        <i class="fas fa-coins text-2xl"></i>
+                        <span class="font-semibold text-sm">Zakat Mal</span>
+                        <span class="text-xs text-amber-100">2.5% dari harta</span>
+                    </button>
+                    <button onclick="window.location.href='pembayaran-jamaah.html'" class="quick-pay-btn bg-gradient-to-r from-blue-500 to-blue-600 text-white p-5 rounded-xl flex flex-col items-center gap-2 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300">
+                        <i class="fas fa-hand-holding-heart text-2xl"></i>
+                        <span class="font-semibold text-sm">Donasi Infaq</span>
+                        <span class="text-xs text-blue-100">Untuk kemajuan masjid</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ====== RIWAYAT & KEGIATAN ====== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Riwayat Donasi -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">📜 Riwayat Donasi</h3>
+                        <a href="riwayat-donasi.html" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1 transition-colors duration-200">
+                            Lihat Semua <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                    <div id="riwayatContainer" class="space-y-2">
+                        <!-- Data diisi JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Kegiatan Terdekat -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">📅 Kegiatan Terdekat</h3>
+                        <a href="agenda.html" class="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1 transition-colors duration-200">
+                            Lihat Semua <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                    <div id="kegiatanContainer" class="space-y-3">
+                        <!-- Data diisi JavaScript -->
+                    </div>
+                    <button onclick="scanQR()" class="w-full mt-4 px-4 py-2.5 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fas fa-qrcode"></i> Scan QR Absensi
+                    </button>
+                </div>
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ====== DATA RIWAYAT DONASI ======
+        const riwayatDonasi = [
+            { id: 1, nama: 'Zakat Fitrah - 2026', amount: 75000 },
+            { id: 2, nama: 'Donasi Renovasi', amount: 500000 },
+            { id: 3, nama: 'Zakat Mal - 2025', amount: 375000 },
+            { id: 4, nama: 'Infaq Jum\'at', amount: 150000 },
+            { id: 5, nama: 'Donasi Pendidikan', amount: 200000 },
+        ];
+
+        // ====== DATA KEGIATAN ======
+        const kegiatanTerdekat = [
+            { id: 1, nama: 'Kajian Ahad Pagi', tanggal: 'Minggu, 21 Juni 2026', waktu: '07:00 WIB' },
+            { id: 2, nama: 'Buka Puasa Bersama', tanggal: 'Jumat, 19 Juni 2026', waktu: '17:30 WIB' },
+            { id: 3, nama: 'Pelatihan Takmir', tanggal: 'Sabtu, 20 Juni 2026', waktu: '14:00 WIB' },
+        ];
+
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== FORMAT RUPIAH ======
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
+        }
+
+        // ====== RENDER RIWAYAT ======
+        function renderRiwayat() {
+            const container = document.getElementById('riwayatContainer');
+            container.innerHTML = riwayatDonasi.slice(0, 3).map((item, index) => `
+                <div class="history-item flex items-center justify-between p-3 rounded-xl border border-gray-100 transition-all duration-200">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-receipt text-emerald-500 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-800">${item.nama}</span>
+                    </div>
+                    <span class="text-sm font-bold text-emerald-600">${formatRupiah(item.amount)}</span>
+                </div>
+            `).join('');
+        }
+
+        // ====== RENDER KEGIATAN ======
+        function renderKegiatan() {
+            const container = document.getElementById('kegiatanContainer');
+            container.innerHTML = kegiatanTerdekat.map((item, index) => `
+                <div class="activity-item flex items-start gap-3 p-3 rounded-xl border border-gray-100 transition-all duration-200">
+                    <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-calendar-day text-blue-500 text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">${item.nama}</p>
+                        <p class="text-xs text-gray-500">${item.tanggal} • ${item.waktu}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ====== UPDATE STATS ======
+        function updateStats() {
+            const totalDonasi = riwayatDonasi.reduce((sum, item) => sum + item.amount, 0);
+            const totalZakat = riwayatDonasi
+                .filter(item => item.nama.includes('Zakat'))
+                .reduce((sum, item) => sum + item.amount, 0);
+            const totalKegiatan = kegiatanTerdekat.length;
+
+            document.getElementById('totalDonasi').textContent = formatRupiah(totalDonasi);
+            document.getElementById('totalZakat').textContent = formatRupiah(totalZakat);
+            document.getElementById('totalKegiatan').textContent = totalKegiatan + 9; // +9 dari kegiatan sebelumnya
+        }
+
+        // ====== SCAN QR ======
+        function scanQR() {
+            showNotification('📱 Silakan arahkan kamera ke QR Code absensi!');
+        }
+
+        // ====== LOGOUT ======
+        function logout() {
+            if (confirm('Yakin ingin logout dari Portal Jamaah?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+                window.location.href = 'login.html';
+            }
+            return false;
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== USER NAME ======
+        const userName = localStorage.getItem('userName') || 'Budi Santoso';
+        document.getElementById('userNameDisplay').textContent = userName;
+        document.getElementById('userNameWelcome').textContent = userName;
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        renderRiwayat();
+        renderKegiatan();
+        updateStats();
+        console.log('👤 Portal Jamaah loaded!');
+        console.log(`📊 Selamat datang, ${userName}!`);
+    </script>
+
+</body>
+</html>

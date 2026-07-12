@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Agenda - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .agenda-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .agenda-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .filter-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .btn-action {
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+        .status-dot {
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .qr-code-animation {
+            animation: qrPop 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes qrPop {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .view-btn {
+            transition: all 0.3s ease;
+        }
+        .view-btn.active {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+        }
+        .view-btn:not(.active):hover {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+       <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Utama</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="dashboard.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-chart-pie w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="user-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-users w-5 text-white/40"></i> Manajemen User</a></li>
+                    <li><a href="role-management.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-tag w-5 text-white/40"></i> Manajemen Role</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Manajemen</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="keuangan.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-coins w-5 text-white/40"></i> Keuangan</a></li>
+                    <li><a href="zakat.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-hand-holding-heart w-5 text-white/40"></i> Zakat</a></li>
+                    <li><a href="inventaris.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-boxes w-5 text-white/40"></i> Inventaris</a></li>
+                    <li><a href="agenda.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-calendar-alt w-5 text-white/70"></i> Agenda</a></li>
+                    <li><a href="dokumentasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-photo-video w-5 text-white/40"></i> Dokumentasi</a></li>
+                    <li><a href="mustahik.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-people-arrows w-5 text-white/40"></i> Mustahik</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Fitur Novelty</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-circle w-5 text-white/40"></i> Portal Jamaah</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-credit-card w-5 text-white/40"></i> Pembayaran</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                    <li><a href="wa-notifikasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fab fa-whatsapp w-5 text-white/40"></i> WA Notifikasi</a></li>
+                    <li><a href="wa-blast.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-bullhorn w-5 text-white/40"></i> WA Blast</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">Pengaturan</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-masjid.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-mosque w-5 text-white/40"></i> Pengaturan Masjid</a></li>
+                    <li><a href="pengaturan-smtp.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-envelope w-5 text-white/40"></i> Pengaturan SMTP</a></li>
+                    <li><a href="utilitas.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-tools w-5 text-white/40"></i> Utilitas</a></li>
+                    <li><a href="memo.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sticky-note w-5 text-white/40"></i> Memo</a></li>
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">📅 Manajemen Agenda & Kegiatan</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Kelola jadwal kegiatan masjid</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal()" class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5">
+                        <i class="fas fa-plus"></i> Tambah Kegiatan
+                    </button>
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">A</div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none">Admin</p>
+                            <p class="text-[10px] text-gray-500">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== STATS ====== -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                <div class="stat-card bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Total Kegiatan</p>
+                            <p class="text-xl font-bold text-gray-800 mt-1" id="totalKegiatan">12</p>
+                        </div>
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-emerald-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Aktif</p>
+                            <p class="text-xl font-bold text-emerald-600 mt-1" id="totalAktif">5</p>
+                        </div>
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-emerald-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Berlangsung</p>
+                            <p class="text-xl font-bold text-blue-600 mt-1" id="totalBerlangsung">3</p>
+                        </div>
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-play-circle text-blue-500"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white rounded-2xl p-4 shadow-sm border border-emerald-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">Mendatang</p>
+                            <p class="text-xl font-bold text-amber-600 mt-1" id="totalMendatang">4</p>
+                        </div>
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-amber-500"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== FILTER & VIEW ====== -->
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 overflow-hidden">
+                <div class="px-4 lg:px-6 py-4 border-b border-emerald-100 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap gap-3">
+                        <select id="filterStatus" class="filter-input px-4 py-2 border-2 border-gray-200 rounded-xl text-sm bg-white">
+                            <option value="">Semua Kegiatan</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Berlangsung">Berlangsung</option>
+                            <option value="Mendatang">Mendatang</option>
+                            <option value="Selesai">Selesai</option>
+                        </select>
+                        <div class="flex gap-1.5 bg-gray-100 p-1 rounded-xl">
+                            <button onclick="setView('card')" id="viewCard" class="view-btn active px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-all duration-200">
+                                <i class="fas fa-th-large"></i> Card
+                            </button>
+                            <button onclick="setView('list')" id="viewList" class="view-btn px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-all duration-200">
+                                <i class="fas fa-list"></i> List
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="exportAgenda()" class="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 transition-all duration-200 flex items-center gap-2">
+                            <i class="fas fa-file-excel"></i> Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ====== AGENDA CARDS ====== -->
+                <div id="agendaContainer" class="p-4 lg:p-6">
+                    <div id="cardView" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Diisi JavaScript -->
+                    </div>
+                    <div id="listView" class="hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="bg-gray-50/80 border-b border-emerald-100">
+                                        <th class="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
+                                        <th class="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama Kegiatan</th>
+                                        <th class="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                        <th class="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Waktu</th>
+                                        <th class="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Lokasi</th>
+                                        <th class="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listTableBody">
+                                    <!-- Diisi JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ====== MODAL TAMBAH AGENDA ====== -->
+    <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white rounded-2xl max-w-md w-full shadow-2xl">
+            <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-calendar-plus text-emerald-600"></i> Tambah Kegiatan
+                </h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="agendaForm" class="p-6 space-y-4" onsubmit="handleAddAgenda(event)">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama Kegiatan <span class="text-red-500">*</span></label>
+                    <input type="text" id="formName" placeholder="Nama kegiatan" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Tanggal <span class="text-red-500">*</span></label>
+                    <input type="date" id="formDate" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Waktu Mulai <span class="text-red-500">*</span></label>
+                        <input type="time" id="formStart" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Waktu Selesai <span class="text-red-500">*</span></label>
+                        <input type="time" id="formEnd" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Lokasi <span class="text-red-500">*</span></label>
+                    <input type="text" id="formLocation" placeholder="Lokasi kegiatan" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi</label>
+                    <textarea id="formDesc" rows="2" placeholder="Deskripsi kegiatan" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 resize-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Status <span class="text-red-500">*</span></label>
+                    <select id="formStatus" class="w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 bg-white" required>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Berlangsung">Berlangsung</option>
+                        <option value="Mendatang">Mendatang</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                    <i class="fas fa-save"></i> Simpan Kegiatan
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ====== DATA AGENDA ======
+        let agendas = [
+            { 
+                id: 1, 
+                name: 'Kajian Rutin Ahad Pagi', 
+                date: '2026-06-21', 
+                start: '07:00', 
+                end: '09:00',
+                location: 'Masjid AN-NUR',
+                desc: 'Ustadz Ahmad Rifa\'i',
+                status: 'Aktif',
+                target: '150 jamaah'
+            },
+            { 
+                id: 2, 
+                name: 'Pelatihan Takmir Masjid', 
+                date: '2026-06-20', 
+                start: '14:00', 
+                end: '17:00',
+                location: 'Aula Masjid',
+                desc: 'Panitia: 25 orang',
+                status: 'Mendatang',
+                target: '25 peserta'
+            },
+            { 
+                id: 3, 
+                name: 'Buka Puasa Bersama', 
+                date: '2026-06-19', 
+                start: '17:30', 
+                end: '20:00',
+                location: 'Halaman Masjid',
+                desc: 'Target: 500 jamaah',
+                status: 'Berlangsung',
+                target: '350 jamaah'
+            },
+            { 
+                id: 4, 
+                name: 'Pengajian Akbar', 
+                date: '2026-06-18', 
+                start: '19:00', 
+                end: '21:30',
+                location: 'Masjid AN-NUR',
+                desc: 'Ustadz Abdul Somad',
+                status: 'Selesai',
+                target: '1000 jamaah'
+            }
+        ];
+
+        let nextId = 5;
+        let currentView = 'card';
+
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== FORMAT FUNCTIONS ======
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'Aktif': 'bg-emerald-50 text-emerald-600 border-emerald-200',
+                'Berlangsung': 'bg-blue-50 text-blue-600 border-blue-200',
+                'Mendatang': 'bg-amber-50 text-amber-600 border-amber-200',
+                'Selesai': 'bg-gray-50 text-gray-500 border-gray-200'
+            };
+            return colors[status] || 'bg-gray-50 text-gray-600 border-gray-200';
+        }
+
+        function getBorderColor(status) {
+            const colors = {
+                'Aktif': 'border-emerald-500',
+                'Berlangsung': 'border-blue-500',
+                'Mendatang': 'border-amber-500',
+                'Selesai': 'border-gray-400'
+            };
+            return colors[status] || 'border-gray-400';
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'Aktif': 'fa-check-circle',
+                'Berlangsung': 'fa-play-circle',
+                'Mendatang': 'fa-clock',
+                'Selesai': 'fa-check-double'
+            };
+            return icons[status] || 'fa-circle';
+        }
+
+        // ====== UPDATE STATS ======
+        function updateStats() {
+            const total = agendas.length;
+            const aktif = agendas.filter(a => a.status === 'Aktif').length;
+            const berlangsung = agendas.filter(a => a.status === 'Berlangsung').length;
+            const mendatang = agendas.filter(a => a.status === 'Mendatang').length;
+
+            document.getElementById('totalKegiatan').textContent = total;
+            document.getElementById('totalAktif').textContent = aktif;
+            document.getElementById('totalBerlangsung').textContent = berlangsung;
+            document.getElementById('totalMendatang').textContent = mendatang;
+        }
+
+        // ====== RENDER AGENDA ======
+        function renderAgenda() {
+            const statusFilter = document.getElementById('filterStatus').value;
+            const filtered = statusFilter ? agendas.filter(a => a.status === statusFilter) : agendas;
+
+            renderCards(filtered);
+            renderList(filtered);
+            updateStats();
+        }
+
+        function renderCards(data) {
+            const container = document.getElementById('cardView');
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-2 text-center py-12 text-gray-400">
+                        <i class="fas fa-calendar-times text-4xl block mb-3 opacity-30"></i>
+                        <p>Tidak ada kegiatan ditemukan</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = data.map((agenda, index) => `
+                <div class="agenda-card bg-white rounded-2xl p-5 shadow-sm border-l-4 ${getBorderColor(agenda.status)} border border-emerald-50">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800">${agenda.name}</h3>
+                            <p class="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                                <i class="fas fa-calendar text-emerald-500"></i> ${formatDate(agenda.date)}
+                            </p>
+                            <p class="text-sm text-gray-500 flex items-center gap-2">
+                                <i class="fas fa-clock text-emerald-500"></i> ${agenda.start} - ${agenda.end} WIB
+                            </p>
+                            <p class="text-sm text-gray-500 flex items-center gap-2">
+                                <i class="fas fa-map-marker-alt text-emerald-500"></i> ${agenda.location}
+                            </p>
+                            ${agenda.desc ? `<p class="text-sm text-gray-600 mt-2">📌 ${agenda.desc}</p>` : ''}
+                            ${agenda.target ? `<p class="text-sm text-emerald-600 mt-1">🎯 ${agenda.target}</p>` : ''}
+                        </div>
+                        <div class="flex flex-col items-end gap-2 ml-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(agenda.status)} border">
+                                <i class="fas ${getStatusIcon(agenda.status)}"></i>
+                                ${agenda.status}
+                            </span>
+                            <span class="text-xs text-gray-400">ID: ${agenda.id}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
+                        <button onclick="sendReminder(${agenda.id})" class="px-3 py-1.5 bg-green-50 text-green-600 hover:bg-green-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                            <i class="fab fa-whatsapp"></i> Reminder
+                        </button>
+                        <button onclick="generateQR(${agenda.id})" class="px-3 py-1.5 bg-purple-50 text-purple-600 hover:bg-purple-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                            <i class="fas fa-qrcode"></i> QR Code
+                        </button>
+                        <button onclick="editAgenda(${agenda.id})" class="px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="deleteAgenda(${agenda.id})" class="px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ml-auto">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderList(data) {
+            const tbody = document.getElementById('listTableBody');
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-10 text-gray-400">
+                            <i class="fas fa-calendar-times text-3xl block mb-2 opacity-30"></i>
+                            Tidak ada kegiatan ditemukan
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            tbody.innerHTML = data.map((agenda, index) => `
+                <tr class="border-b border-emerald-50 hover:bg-emerald-50/50 transition-colors duration-200">
+                    <td class="py-3 px-3 text-sm text-gray-500">${index + 1}</td>
+                    <td class="py-3 px-3 text-sm font-semibold text-gray-800">${agenda.name}</td>
+                    <td class="py-3 px-3 text-sm text-gray-600">${formatDate(agenda.date)}</td>
+                    <td class="py-3 px-3 text-sm text-gray-600">${agenda.start} - ${agenda.end}</td>
+                    <td class="py-3 px-3 text-sm text-gray-600">${agenda.location}</td>
+                    <td class="py-3 px-3 text-center">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(agenda.status)} border">
+                            <i class="fas ${getStatusIcon(agenda.status)}"></i>
+                            ${agenda.status}
+                        </span>
+                    </td>
+                    <td class="py-3 px-3 text-center">
+                        <button onclick="editAgenda(${agenda.id})" class="btn-action text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 w-8 h-8 rounded-lg transition-all duration-200 mr-1">
+                            <i class="fas fa-edit text-sm"></i>
+                        </button>
+                        <button onclick="deleteAgenda(${agenda.id})" class="btn-action text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 w-8 h-8 rounded-lg transition-all duration-200">
+                            <i class="fas fa-trash text-sm"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ====== VIEW FUNCTIONS ======
+        function setView(view) {
+            currentView = view;
+            document.getElementById('viewCard').classList.toggle('active', view === 'card');
+            document.getElementById('viewList').classList.toggle('active', view === 'list');
+            document.getElementById('cardView').classList.toggle('hidden', view !== 'card');
+            document.getElementById('listView').classList.toggle('hidden', view !== 'list');
+        }
+
+        // ====== FILTER ======
+        document.getElementById('filterStatus').addEventListener('change', renderAgenda);
+
+        // ====== MODAL FUNCTIONS ======
+        function openModal() {
+            document.getElementById('modalOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('agendaForm').reset();
+        }
+
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ====== ADD AGENDA ======
+        function handleAddAgenda(e) {
+            e.preventDefault();
+            const name = document.getElementById('formName').value.trim();
+            const date = document.getElementById('formDate').value;
+            const start = document.getElementById('formStart').value;
+            const end = document.getElementById('formEnd').value;
+            const location = document.getElementById('formLocation').value.trim();
+            const desc = document.getElementById('formDesc').value.trim();
+            const status = document.getElementById('formStatus').value;
+
+            if (!name || !date || !start || !end || !location) {
+                alert('Semua field wajib diisi!');
+                return;
+            }
+
+            agendas.push({
+                id: nextId++,
+                name,
+                date,
+                start,
+                end,
+                location,
+                desc,
+                status
+            });
+
+            renderAgenda();
+            closeModal();
+            showNotification('✅ Kegiatan berhasil ditambahkan!');
+        }
+
+        // ====== EDIT AGENDA ======
+        function editAgenda(id) {
+            const agenda = agendas.find(a => a.id === id);
+            if (!agenda) return;
+            const newName = prompt('Edit Nama Kegiatan:', agenda.name);
+            if (newName && newName.trim()) {
+                agenda.name = newName.trim();
+                renderAgenda();
+                showNotification('✏️ Kegiatan berhasil diupdate!');
+            }
+        }
+
+        // ====== DELETE AGENDA ======
+        function deleteAgenda(id) {
+            const agenda = agendas.find(a => a.id === id);
+            if (!agenda) return;
+            if (confirm(`Yakin hapus kegiatan "${agenda.name}"?`)) {
+                agendas = agendas.filter(a => a.id !== id);
+                renderAgenda();
+                showNotification('🗑️ Kegiatan berhasil dihapus!');
+            }
+        }
+
+        // ====== SEND REMINDER ======
+        function sendReminder(id) {
+            const agenda = agendas.find(a => a.id === id);
+            if (!agenda) return;
+            showNotification(`✅ Reminder WA untuk "${agenda.name}" berhasil dikirim!`);
+        }
+
+        // ====== GENERATE QR ======
+        function generateQR(id) {
+            const agenda = agendas.find(a => a.id === id);
+            if (!agenda) return;
+            const qrCode = `AGENDA-${agenda.id}-${agenda.date.replace(/-/g, '')}`;
+            showNotification(`✅ QR Code untuk "${agenda.name}" berhasil dibuat! Kode: ${qrCode}`);
+        }
+
+        // ====== EXPORT ======
+        function exportAgenda() {
+            showNotification('📊 Export agenda berhasil!');
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        renderAgenda();
+        console.log('📅 Manajemen Agenda loaded!');
+        console.log(`📊 Total kegiatan: ${agendas.length}`);
+    </script>
+
+</body>
+</html>

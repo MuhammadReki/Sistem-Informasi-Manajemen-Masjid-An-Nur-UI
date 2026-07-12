@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran Zakat/Infaq - SIMAS Masjid AN-NUR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: #f0f5f0;
+        }
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .menu-active {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-right: 3px solid #ffffff;
+        }
+        .menu-active i {
+            color: #ffffff !important;
+        }
+        .sidebar-toggle {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-toggle.closed {
+            transform: translateX(-100%);
+        }
+        @media (min-width: 1024px) {
+            .sidebar-toggle.closed {
+                transform: translateX(0);
+            }
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        .sidebar-link:hover i {
+            color: #ffffff;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2e7d32;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1b5e20;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+        .payment-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+        .rekening-card {
+            transition: all 0.3s ease;
+        }
+        .rekening-card:hover {
+            background: #f0faf0;
+        }
+        .file-upload-zone {
+            border: 3px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .file-upload-zone:hover {
+            border-color: #2e7d32;
+            background: #f0faf0;
+        }
+        .file-upload-zone.dragover {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+        }
+        .file-preview {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== DASHBOARD WRAPPER ====== -->
+    <div class="flex h-screen overflow-hidden">
+
+    <!-- ====== SIDEBAR (HIJAU) ====== -->
+<aside id="sidebar" class="sidebar-toggle fixed lg:relative z-30 w-72 h-full bg-gradient-to-b from-[#1b5e20] to-[#2e7d32] shadow-2xl flex-shrink-0 overflow-hidden transition-transform duration-300">
+    <div class="flex items-center gap-2 px-6 py-5 border-b border-white/10">
+        <img src="../assets/Logo.png" alt="Logo Masjid" class="w-12 h-12 object-contain flex-shrink-0">
+        <div>
+            <h1 class="text-xl font-bold text-white tracking-tight leading-tight">SIMAS</h1>
+            <p class="text-[10px] text-emerald-200 font-medium tracking-widest uppercase leading-tight">Masjid AN-NUR</p>
+        </div>
+    </div>
+            <nav class="sidebar-scroll h-[calc(100%-80px)] overflow-y-auto py-4 px-3">
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">👤 Jamaah</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="portal-jamaah.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-home w-5 text-white/40"></i> Dashboard</a></li>
+                    <li><a href="pembayaran-jamaah.html" class="menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 sidebar-link"><i class="fas fa-credit-card w-5 text-white/70"></i> Bayar Zakat/Infaq</a></li>
+                    <li><a href="riwayat-donasi.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-history w-5 text-white/40"></i> Riwayat Donasi</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">📅 Kegiatan</p>
+                <ul class="space-y-0.5 mb-4">
+                    <li><a href="agenda.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-calendar-alt w-5 text-white/40"></i> Agenda</a></li>
+                    <li><a href="absensi-qr.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-qrcode w-5 text-white/40"></i> Absensi QR</a></li>
+                </ul>
+                <p class="text-[10px] font-semibold text-white/50 uppercase tracking-widest px-3 mb-2">⚙️ Akun</p>
+                <ul class="space-y-0.5">
+                    <li><a href="pengaturan-akun.html" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-user-cog w-5 text-white/40"></i> Pengaturan Akun</a></li>
+                    <li><a href="login.html" onclick="logout()" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white transition-all duration-200"><i class="fas fa-sign-out-alt w-5 text-white/40"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ====== OVERLAY ====== -->
+        <div id="sidebarOverlay" class="sidebar-overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- ====== MAIN CONTENT ====== -->
+        <main class="flex-1 overflow-y-auto p-4 lg:p-6">
+            
+            <!-- ====== TOPBAR ====== -->
+            <header class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">💳 Pembayaran Zakat / Infaq</h1>
+                        <p class="text-sm text-gray-500 hidden sm:block">Bayar zakat, infaq, dan donasi dengan mudah</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="riwayat-donasi.html" class="px-4 py-2.5 bg-white text-gray-700 rounded-xl font-medium flex items-center gap-2 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+                        <i class="fas fa-history text-gray-500"></i> Riwayat
+                    </a>
+                    <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm border border-emerald-100">
+                        <div class="w-9 h-9 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                            B
+                        </div>
+                        <div class="hidden sm:block">
+                            <p class="text-sm font-semibold text-gray-800 leading-none" id="userNameDisplay">Budi Santoso</p>
+                            <p class="text-[10px] text-gray-500">Jamaah Aktif</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ====== MAIN CONTENT ====== -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                
+                <!-- ====== FORM PEMBAYARAN ====== -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-pen text-emerald-600"></i> Form Pembayaran
+                        </h3>
+                        <form id="paymentForm" class="space-y-4" onsubmit="handlePayment(event)">
+                            <!-- Jenis Pembayaran -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Jenis Pembayaran <span class="text-red-500">*</span></label>
+                                <select id="formType" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-white transition-all duration-200" required>
+                                    <option value="fitrah">Zakat Fitrah</option>
+                                    <option value="mal">Zakat Mal</option>
+                                    <option value="infaq">Infaq Bebas</option>
+                                    <option value="donasi">Donasi</option>
+                                </select>
+                            </div>
+
+                            <!-- Nominal -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nominal <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">Rp</span>
+                                    <input type="number" id="formAmount" placeholder="0" min="10000" class="form-input w-full pl-12 pr-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200" required>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Minimal Rp 10.000 untuk infaq/donasi</p>
+                            </div>
+
+                            <!-- Nominal Cepat -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pilihan Nominal Cepat</label>
+                                <div class="flex flex-wrap gap-2">
+                                    <button type="button" onclick="setAmount(50000)" class="px-4 py-1.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-600 border border-gray-200 rounded-lg text-sm font-medium transition-all duration-200">Rp 50.000</button>
+                                    <button type="button" onclick="setAmount(100000)" class="px-4 py-1.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-600 border border-gray-200 rounded-lg text-sm font-medium transition-all duration-200">Rp 100.000</button>
+                                    <button type="button" onclick="setAmount(250000)" class="px-4 py-1.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-600 border border-gray-200 rounded-lg text-sm font-medium transition-all duration-200">Rp 250.000</button>
+                                    <button type="button" onclick="setAmount(500000)" class="px-4 py-1.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-600 border border-gray-200 rounded-lg text-sm font-medium transition-all duration-200">Rp 500.000</button>
+                                    <button type="button" onclick="setAmount(1000000)" class="px-4 py-1.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-600 border border-gray-200 rounded-lg text-sm font-medium transition-all duration-200">Rp 1.000.000</button>
+                                </div>
+                            </div>
+
+                            <!-- Metode Pembayaran -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Metode Pembayaran <span class="text-red-500">*</span></label>
+                                <select id="formMethod" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl bg-white transition-all duration-200" required>
+                                    <option value="">Pilih Metode</option>
+                                    <option value="transfer">🏦 Transfer Bank</option>
+                                    <option value="tunai">💵 Tunai (Setor ke Masjid)</option>
+                                    <option value="qris">📱 QRIS</option>
+                                </select>
+                            </div>
+
+                            <!-- Deskripsi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi / Keterangan</label>
+                                <textarea id="formDesc" rows="2" placeholder="Tambahkan keterangan jika perlu" class="form-input w-full px-4 py-2.5 border-2 border-gray-200 rounded-xl transition-all duration-200 resize-none"></textarea>
+                            </div>
+
+                            <!-- Upload Bukti -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Upload Bukti Transfer</label>
+                                <div id="uploadZone" class="file-upload-zone rounded-xl p-6 text-center cursor-pointer">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-500 text-sm">Drag & drop atau klik untuk upload</p>
+                                    <p class="text-gray-400 text-xs mt-1">Format: JPG, PNG, PDF. Maks 2MB</p>
+                                    <input type="file" id="formFile" class="hidden" accept="image/*,.pdf">
+                                </div>
+                                <div id="filePreview" class="mt-2 hidden">
+                                    <div class="flex items-center gap-3 p-3 bg-emerald-50 rounded-xl">
+                                        <i class="fas fa-file text-emerald-500"></i>
+                                        <span id="fileName" class="text-sm text-gray-700 flex-1"></span>
+                                        <button onclick="removeFile()" class="text-red-500 hover:text-red-700 transition-colors duration-200">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                <i class="fas fa-paper-plane"></i> Kirim Pembayaran
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ====== SIDE INFO ====== -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- Rekening Masjid -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <i class="fas fa-university text-emerald-600"></i> Rekening Masjid
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="rekening-card flex justify-between items-center p-3 rounded-xl bg-gray-50 transition-all duration-200">
+                                <span class="text-sm text-gray-600">Bank</span>
+                                <span class="text-sm font-semibold text-gray-800">Bank Mandiri</span>
+                            </div>
+                            <div class="rekening-card flex justify-between items-center p-3 rounded-xl bg-gray-50 transition-all duration-200">
+                                <span class="text-sm text-gray-600">No. Rekening</span>
+                                <span class="text-sm font-bold text-emerald-600 font-mono">123-00-4567890-1</span>
+                            </div>
+                            <div class="rekening-card flex justify-between items-center p-3 rounded-xl bg-gray-50 transition-all duration-200">
+                                <span class="text-sm text-gray-600">Atas Nama</span>
+                                <span class="text-sm font-semibold text-gray-800">Masjid AN-NUR</span>
+                            </div>
+                            <button onclick="copyRekening()" class="w-full mt-2 px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2">
+                                <i class="fas fa-copy"></i> Salin No. Rekening
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Informasi Penting -->
+                    <div class="bg-gradient-to-br from-emerald-50 to-white rounded-2xl p-6 border border-emerald-100">
+                        <h4 class="text-sm font-semibold text-emerald-700 mb-3 flex items-center gap-2">
+                            <i class="fas fa-info-circle"></i> Informasi Penting
+                        </h4>
+                        <ul class="space-y-2.5 text-sm text-gray-600">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fas fa-check-circle text-emerald-500 mt-0.5"></i>
+                                <span>Konfirmasi dalam <strong>1x24 jam</strong> setelah pembayaran</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fas fa-check-circle text-emerald-500 mt-0.5"></i>
+                                <span>Upload bukti transfer yang <strong>jelas</strong> dan terbaca</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fas fa-check-circle text-emerald-500 mt-0.5"></i>
+                                <span>Notifikasi <strong>WhatsApp</strong> akan dikirim setelah dikonfirmasi</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fas fa-check-circle text-emerald-500 mt-0.5"></i>
+                                <span>Zakat Fitrah: <strong>Rp 45.000</strong>/orang (beras 2.5kg)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- QRIS -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-emerald-100 text-center">
+                        <h4 class="text-sm font-semibold text-gray-800 mb-3">📱 Scan QRIS untuk Pembayaran</h4>
+                        <div class="w-32 h-32 bg-gray-100 rounded-xl mx-auto flex items-center justify-center">
+                            <i class="fas fa-qrcode text-5xl text-gray-400"></i>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-2">Scan menggunakan aplikasi mobile banking</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ====== FOOTER ====== -->
+            <div class="mt-6 text-center text-xs text-gray-400 border-t border-emerald-100 pt-4">
+                &copy; 2026 SIMAS - Sistem Informasi Manajemen Masjid AN-NUR
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ====== TOGGLE SIDEBAR ======
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('closed');
+            overlay.classList.toggle('hidden');
+        }
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('closed');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            }
+        });
+
+        // ====== SET AMOUNT ======
+        function setAmount(value) {
+            document.getElementById('formAmount').value = value;
+            document.getElementById('formAmount').focus();
+        }
+
+        // ====== FILE UPLOAD ======
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('formFile');
+
+        uploadZone.addEventListener('click', function() {
+            fileInput.click();
+        });
+
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length) {
+                handleFile(this.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                alert('Format file tidak didukung! Gunakan JPG, PNG, GIF, atau PDF.');
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file maksimal 2MB!');
+                return;
+            }
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('filePreview').classList.remove('hidden');
+        }
+
+        function removeFile() {
+            document.getElementById('filePreview').classList.add('hidden');
+            fileInput.value = '';
+        }
+
+        // ====== COPY REKENING ======
+        function copyRekening() {
+            const rekening = '123-00-4567890-1';
+            navigator.clipboard.writeText(rekening).then(() => {
+                showNotification('✅ Nomor rekening berhasil disalin!');
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = rekening;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                textarea.remove();
+                showNotification('✅ Nomor rekening berhasil disalin!');
+            });
+        }
+
+        // ====== HANDLE PAYMENT ======
+        function handlePayment(e) {
+            e.preventDefault();
+            const type = document.getElementById('formType').value;
+            const amount = document.getElementById('formAmount').value;
+            const method = document.getElementById('formMethod').value;
+            const desc = document.getElementById('formDesc').value;
+
+            if (!amount || parseInt(amount) < 10000) {
+                alert('Nominal minimal Rp 10.000!');
+                return;
+            }
+
+            if (!method) {
+                alert('Pilih metode pembayaran!');
+                return;
+            }
+
+            const typeNames = {
+                'fitrah': 'Zakat Fitrah',
+                'mal': 'Zakat Mal',
+                'infaq': 'Infaq Bebas',
+                'donasi': 'Donasi'
+            };
+
+            const methodNames = {
+                'transfer': 'Transfer Bank',
+                'tunai': 'Tunai',
+                'qris': 'QRIS'
+            };
+
+            const amountFormatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+
+            const confirmMsg = `Konfirmasi Pembayaran:
+            \nJenis: ${typeNames[type]}
+            \nNominal: ${amountFormatted}
+            \nMetode: ${methodNames[method]}
+            ${desc ? `\nDeskripsi: ${desc}` : ''}
+            \n\nKlik OK untuk melanjutkan.`;
+
+            if (confirm(confirmMsg)) {
+                // Simulasi pengiriman
+                const btn = e.target.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    showNotification('✅ Pembayaran berhasil dikirim! Menunggu konfirmasi.');
+                    document.getElementById('paymentForm').reset();
+                    document.getElementById('filePreview').classList.add('hidden');
+                }, 2000);
+            }
+        }
+
+        // ====== LOGOUT ======
+        function logout() {
+            if (confirm('Yakin ingin logout dari Portal Jamaah?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+                window.location.href = 'login.html';
+            }
+            return false;
+        }
+
+        // ====== NOTIFICATION ======
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-6 right-6 bg-gray-800 text-white px-6 py-3.5 rounded-xl shadow-2xl text-sm font-medium flex items-center gap-3 z-50';
+            notif.style.animation = 'slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            notif.innerHTML = message;
+            document.body.appendChild(notif);
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateY(20px)';
+                notif.style.transition = 'all 0.3s ease';
+                setTimeout(() => notif.remove(), 300);
+            }, 3000);
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ====== USER NAME ======
+        const userName = localStorage.getItem('userName') || 'Budi Santoso';
+        document.getElementById('userNameDisplay').textContent = userName;
+
+        // ====== ESC KEY ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (window.innerWidth < 1024) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (!sidebar.classList.contains('closed')) toggleSidebar();
+                }
+            }
+        });
+
+        // ====== INIT ======
+        console.log('💳 Pembayaran Zakat/Infaq loaded!');
+        console.log(`👤 Selamat datang, ${userName}!`);
+    </script>
+
+</body>
+</html>
